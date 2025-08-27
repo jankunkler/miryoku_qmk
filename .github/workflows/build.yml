@@ -1,17 +1,26 @@
-name: 'Build Corne v4 Firmware'
-
+name: Build Miryoku Corne
 on:
-  - push
-  - workflow_dispatch
+  workflow_dispatch:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
-    # This calls the main Miryoku workflow.
-    uses: ./.github/workflows/main.yml
-    with:
-      # This still needs to be a JSON array string.
-      keyboard: '["crkbd/rev1"]'
-      
-      # This is the new, correct method.
-      # We are passing the configuration defines directly to the compiler.
-      extra_cmake_options: '-DMIRYOKU_BOOTLOADER=rp2040 -DMIRYOKU_ALPHAS=colemak_dh'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Build firmware
+      run: |
+        make crkbd/rev4_1:manna-harbour_miryoku
+
+    - name: Archive firmware
+      uses: actions/upload-artifact@v3
+      with:
+        name: crkbd-miryoku-firmware
+        path: |
+          *.hex
+          *.bin
+          *.uf2
