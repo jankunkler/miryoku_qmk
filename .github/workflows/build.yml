@@ -1,0 +1,22 @@
+name: 'Build Corne v4 Firmware'
+
+# This workflow runs when you push a change or when you trigger it manually.
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    # This uses the main Miryoku build workflow.
+    uses: ./.github/workflows/main.yml
+    with:
+      # This is the crucial part for your keyboard.
+      # All Corne versions use 'crkbd/rev1' in QMK.
+      keyboard: 'crkbd/rev1'
+      
+      # The keymap is always 'miryoku'.
+      keymap: 'miryoku'
+      
+      # --- CUSTOMIZE YOUR LAYOUT HERE ---
+      # You can change 'colemak_dh' to 'qwerty', 'dvorak', etc.
+      custom_config: '{ "MIRYOKU_ALPHAS": "colemak_dh" }'
