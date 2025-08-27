@@ -1,4 +1,4 @@
-name: 'Build Corne v4 (RP2040) Firmware'
+name: 'Build Corne v4 Firmware'
 
 on:
   - push
@@ -8,10 +8,9 @@ jobs:
   build:
     uses: ./.github/workflows/main.yml
     with:
-      # This is still the correct identifier for all Corne keyboards.
-      keyboard: 'crkbd/rev1'
+      # This is the corrected line. We are now passing a string
+      # that looks like a JSON array, which the workflow expects.
+      keyboard: '["crkbd/rev1"]'
       
-      # This is the crucial part. We add "MIRYOKU_BOOTLOADER" to the custom config.
-      # This explicitly tells the build system to compile for the RP2040
-      # and generate the .uf2 file you need.
+      # This part remains correct and is essential for getting the .uf2 file.
       custom_config: '{ "MIRYOKU_ALPHAS": "colemak_dh", "MIRYOKU_BOOTLOADER": "rp2040" }'
