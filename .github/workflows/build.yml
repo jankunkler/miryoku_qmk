@@ -6,11 +6,12 @@ on:
 
 jobs:
   build:
+    # This calls the main Miryoku workflow.
     uses: ./.github/workflows/main.yml
     with:
-      # This is the corrected line. We are now passing a string
-      # that looks like a JSON array, which the workflow expects.
+      # This still needs to be a JSON array string.
       keyboard: '["crkbd/rev1"]'
       
-      # This part remains correct and is essential for getting the .uf2 file.
-      custom_config: '{ "MIRYOKU_ALPHAS": "colemak_dh", "MIRYOKU_BOOTLOADER": "rp2040" }'
+      # This is the new, correct method.
+      # We are passing the configuration defines directly to the compiler.
+      extra_cmake_options: '-DMIRYOKU_BOOTLOADER=rp2040 -DMIRYOKU_ALPHAS=colemak_dh'
