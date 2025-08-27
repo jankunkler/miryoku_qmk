@@ -1,22 +1,17 @@
-name: 'Build Corne v4 Firmware'
+name: 'Build Corne v4 (RP2040) Firmware'
 
-# This workflow runs when you push a change or when you trigger it manually.
 on:
   - push
   - workflow_dispatch
 
 jobs:
   build:
-    # This uses the main Miryoku build workflow.
     uses: ./.github/workflows/main.yml
     with:
-      # This is the crucial part for your keyboard.
-      # All Corne versions use 'crkbd/rev1' in QMK.
+      # This is still the correct identifier for all Corne keyboards.
       keyboard: 'crkbd/rev1'
       
-      # The keymap is always 'miryoku'.
-      keymap: 'miryoku'
-      
-      # --- CUSTOMIZE YOUR LAYOUT HERE ---
-      # You can change 'colemak_dh' to 'qwerty', 'dvorak', etc.
-      custom_config: '{ "MIRYOKU_ALPHAS": "colemak_dh" }'
+      # This is the crucial part. We add "MIRYOKU_BOOTLOADER" to the custom config.
+      # This explicitly tells the build system to compile for the RP2040
+      # and generate the .uf2 file you need.
+      custom_config: '{ "MIRYOKU_ALPHAS": "colemak_dh", "MIRYOKU_BOOTLOADER": "rp2040" }'
